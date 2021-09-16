@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-webui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc-webui
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: free5gc-webui
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: free5gc-webui-container
+        image: succassion/free5gc-compose_free5gc-webui
+        imagePullPolicy: IfNotPresent
+        command: ["./webui"]
+        env:
+        - name: GIN_MODE
+          value: "release"
+        ports:
+        - name: free5gc-webui
+          containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - name: webuicfg
+          mountPath: free5gc/config/webuicfg.conf
+          subPath: webuicfg.conf
+        - name: free5gc
+          mountPath: free5gc/config/free5GC.conf
+          subPath: free5gc.conf
+      volumes:
+      - name: webuicfg
+        configMap:
+          name: free5gc-webui-configmap
+          items:
+          - key: webuicfg.conf
+            path: webuicfg.conf
+      - name: free5gc
+        configMap:
+          name: free5gc-debug-configmap
+          items:
+          - key: free5gc.conf
+            path: free5gc.conf

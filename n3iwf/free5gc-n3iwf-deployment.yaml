@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: free5gc-n3iwf
+  name: free5gc-n3iwf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: free5gc-n3iwf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/privnet: "true"
+        io.kompose.service: free5gc-n3iwf
+    spec:
+      containers:
+        - args:
+            - sh
+            - -c
+            - ./n3iwf-ipsec.sh && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml
+          env:
+            - name: GIN_MODE
+              value: release
+          image: free5gc-n3iwf
+          name: n3iwf
+          resources: {}
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          volumeMounts:
+            - mountPath: /free5gc/config/n3iwfcfg.yaml
+              name: free5gc-n3iwf-claim0
+            - mountPath: /free5gc/n3iwf/n3iwf-ipsec.sh
+              name: free5gc-n3iwf-claim1
+      restartPolicy: Always
+      volumes:
+        - name: free5gc-n3iwf-claim0
+          persistentVolumeClaim:
+            claimName: free5gc-n3iwf-claim0
+        - name: free5gc-n3iwf-claim1
+          persistentVolumeClaim:
+            claimName: free5gc-n3iwf-claim1
+status: {}

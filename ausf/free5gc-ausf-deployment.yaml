@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: free5gc-ausf
+  name: free5gc-ausf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: free5gc-ausf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/privnet: "true"
+        io.kompose.service: free5gc-ausf
+    spec:
+      containers:
+        - args:
+            - ./ausf
+            - -ausfcfg
+            - ../config/ausfcfg.yaml
+          env:
+            - name: GIN_MODE
+              value: release
+          image: free5gc-ausf
+          name: ausf
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /free5gc/config/ausfcfg.yaml
+              name: free5gc-ausf-claim0
+      restartPolicy: Always
+      volumes:
+        - name: free5gc-ausf-claim0
+          persistentVolumeClaim:
+            claimName: free5gc-ausf-claim0
+status: {}

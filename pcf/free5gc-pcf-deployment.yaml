@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: free5gc-pcf
+  name: free5gc-pcf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: free5gc-pcf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/privnet: "true"
+        io.kompose.service: free5gc-pcf
+    spec:
+      containers:
+        - args:
+            - ./pcf
+            - -pcfcfg
+            - ../config/pcfcfg.yaml
+          env:
+            - name: GIN_MODE
+              value: release
+          image: free5gc-pcf
+          name: pcf
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /free5gc/config/pcfcfg.yaml
+              name: free5gc-pcf-claim0
+      restartPolicy: Always
+      volumes:
+        - name: free5gc-pcf-claim0
+          persistentVolumeClaim:
+            claimName: free5gc-pcf-claim0
+status: {}

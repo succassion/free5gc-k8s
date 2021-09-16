@@ -1,0 +1,6 @@
+resources:
+  - free5gc-mongodb-service.yaml
+  - free5gc-mongodb-configmap.yaml
+  - free5gc-mongodb.yaml
+
+namespace: free5gc-k8s

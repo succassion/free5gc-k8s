@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: free5gc-nrf
+  name: free5gc-nrf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: free5gc-nrf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/privnet: "true"
+        io.kompose.service: free5gc-nrf
+    spec:
+      containers:
+        - args:
+            - ./nrf
+            - -nrfcfg
+            - ../config/nrfcfg.yaml
+          env:
+            - name: DB_URI
+              value: mongodb://db/free5gc
+            - name: GIN_MODE
+              value: release
+          image: free5gc-nrf
+          name: nrf
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /free5gc/config/nrfcfg.yaml
+              name: free5gc-nrf-claim0
+      restartPolicy: Always
+      volumes:
+        - name: free5gc-nrf-claim0
+          persistentVolumeClaim:
+            claimName: free5gc-nrf-claim0
+status: {}

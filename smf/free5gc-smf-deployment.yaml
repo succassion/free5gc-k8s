@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: free5gc-smf
+  name: free5gc-smf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: free5gc-smf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/privnet: "true"
+        io.kompose.service: free5gc-smf
+    spec:
+      containers:
+        - args:
+            - ./smf
+            - -smfcfg
+            - ../config/smfcfg.yaml
+            - -uerouting
+            - ../config/uerouting.yaml
+          env:
+            - name: GIN_MODE
+              value: release
+          image: free5gc-smf
+          name: smf
+          ports:
+            - containerPort: 8000
+          resources: {}
+          volumeMounts:
+            - mountPath: /free5gc/config/smfcfg.yaml
+              name: free5gc-smf-claim0
+            - mountPath: /free5gc/config/uerouting.yaml
+              name: free5gc-smf-claim1
+      restartPolicy: Always
+      volumes:
+        - name: free5gc-smf-claim0
+          persistentVolumeClaim:
+            claimName: free5gc-smf-claim0
+        - name: free5gc-smf-claim1
+          persistentVolumeClaim:
+            claimName: free5gc-smf-claim1
+status: {}

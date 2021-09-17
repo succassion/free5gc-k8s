@@ -3,7 +3,13 @@ kind: ConfigMap
 metadata: 
   name: free5gc-webui-configmap
 data:
-  webuicfg.conf: |
+  free5gc.yaml: |
+    # webui
+    WEBUI:
+      debugLevel: info
+      ReportCaller: true
+
+  webuicfg.yaml: |
     info:
       version: 1.0.0
       description: WebUI initial local configuration
@@ -11,4 +17,4 @@ data:
     configuration:
       mongodb: # the mongodb connected by this webui
         name: free5gc # name of the mongodb
-        url: mongodb://db:27017 # a valid URL of the mongodb
+        url: mongodb://free5gc-mongodb:27017 # a valid URL of the mongodb

@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: free5gc-webui
+  labels:
+    app: free5gc-webui
 spec:
   replicas: 1
   selector:
@@ -16,36 +18,37 @@ spec:
         app: free5gc-webui
     spec:
       restartPolicy: Always
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 60
       containers:
-      - name: free5gc-webui-container
+      - name: free5gc-webui
         image: succassion/free5gc-compose_free5gc-webui
         imagePullPolicy: IfNotPresent
         command: ["./webui"]
-        env:
-        - name: GIN_MODE
-          value: "release"
+        #- /bin/sh
+        #- "-c"
+        #- "sleep 60m"
+        #- "./webui"
         ports:
         - name: free5gc-webui
           containerPort: 5000
           protocol: TCP
         volumeMounts:
-        - name: webuicfg
-          mountPath: free5gc/config/webuicfg.conf
-          subPath: webuicfg.conf
-        - name: free5gc
-          mountPath: free5gc/config/free5GC.conf
-          subPath: free5gc.conf
+        - mountPath: /free5gc/config/webuicfg.yaml
+          name: webuicfg
+          subPath: webuicfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
       - name: webuicfg
         configMap:
           name: free5gc-webui-configmap
           items:
-          - key: webuicfg.conf
-            path: webuicfg.conf
+          - key: webuicfg.yaml
+            path: webuicfg.yaml
       - name: free5gc
         configMap:
-          name: free5gc-debug-configmap
+          name: free5gc-webui-configmap
           items:
-          - key: free5gc.conf
-            path: free5gc.conf
+          - key: free5gc.yaml
+            path: free5gc.yaml

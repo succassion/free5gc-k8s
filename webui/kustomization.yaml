@@ -1,6 +1,6 @@
 resources:
   - free5gc-webui-configmap.yaml
   - free5gc-webui-service.yaml
-  - free5gc-webui-deployment.yaml
+  - free5gc-webui.yaml
 
 namespace: free5gc-k8s

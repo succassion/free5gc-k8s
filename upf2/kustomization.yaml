@@ -1,0 +1,7 @@
+resources:
+  - free5gc-upf2-configmap.yaml
+  - free5gc-upf2-service.yaml
+  - free5gc-upf2-cni.yaml
+  - free5gc-upf2-deployment.yaml
+ 
+namespace: free5gc-k8s

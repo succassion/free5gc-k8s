@@ -1,0 +1,7 @@
+resources:
+  - free5gc-smf-configmap.yaml
+  - free5gc-smf-service.yaml
+  - free5gc-smf-cni.yaml
+  - free5gc-smf-deployment.yaml
+
+namespace: free5gc-k8s

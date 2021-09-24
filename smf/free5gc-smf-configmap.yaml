@@ -3,7 +3,35 @@ kind: ConfigMap
 metadata:
   name: free5gc-smf-configmap
 data:
-  smfcfg.conf: |
+  free5gc.yaml: |
+    db_uri: mongodb://free5gc-mongodb:27017/free5GC
+    # the kind of log output
+    # debugLevel: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: true or false
+    logger:
+      SMF:
+        debugLevel: info
+        ReportCaller: true
+      NAS:
+        debugLevel: info
+        ReportCaller: true
+      NGAP:
+        debugLevel: info
+        ReportCaller: true
+      Aper:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
+      OpenApi:
+        debugLevel: info
+        ReportCaller: true
+      PFCP:
+        debugLevel: info
+        ReportCaller: true
+
+  smfcfg.yaml: |
     info:
       version: 1.0.0
       description: SMF initial local configuration
@@ -12,9 +40,9 @@ data:
       smfName: SMF # the name of this SMF
       sbi: # Service-based interface information
         scheme: http # the protocol for sbi (http or https)
-        registerIPv4: smf.free5gc.org # IP used to register to NRF
-        bindingIPv4: smf.free5gc.org  # IP used to bind the service
-        port: 8000 # Port used to bind the service
+        registerIPv4: free5gc-smf #smf.free5gc.org # IP used to register to NRF
+        bindingIPv4: 0.0.0.0 #smf.free5gc.org  # IP used to bind the service
+        port: 29502  # Port used to bind the service
         tls: # the local path of TLS key
           key: free5gc/support/TLS/smf.key # SMF TLS Certificate
           pem: free5gc/support/TLS/smf.pem # SMF TLS Private key
@@ -42,7 +70,7 @@ data:
                 ipv6: 2001:4860:4860::8888
               ueSubnet: 10.10.0.0/16 # should be CIDR type
       pfcp: # the IP address of N4 interface on this SMF (PFCP)
-        addr: smf.free5gc.org
+        addr: 172.16.30.20 #smf.free5gc.org
       ulcl: true
       userplane_information: # list of userplane information
         up_nodes: # information of userplane node (AN or UPF)
@@ -50,7 +78,7 @@ data:
             type: AN # the type of the node (AN or UPF)
           BranchingUPF:  # the name of the node
             type: UPF # the type of the node (AN or UPF)
-            node_id: upfb.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
+            node_id: 172.16.30.30 #upfb.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
             sNssaiUpfInfos: # S-NSSAI information list for this UPF
               - sNssai: # S-NSSAI (Single Network Slice Selection Assistance Information)
                   sst: 1 # Slice/Service Type (uinteger, range: 0~255)
@@ -65,15 +93,15 @@ data:
             interfaces: # Interface list for this UPF
               - interfaceType: N3 # the type of the interface (N3 or N9)
                 endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - upfb.free5gc.org
+                  - 192.168.10.20 #upfb.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
               - interfaceType: N9 # the type of the interface (N3 or N9)
                 endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - upfb.free5gc.org
+                  - 192.168.10.80 #upfb.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
           AnchorUPF1:  # the name of the node
             type: UPF # the type of the node (AN or UPF)
-            node_id: upf1.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
+            node_id: 172.16.30.31 #upf1.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
             sNssaiUpfInfos: # S-NSSAI information list for this UPF
               - sNssai: # S-NSSAI (Single Network Slice Selection Assistance Information)
                   sst: 1 # Slice/Service Type (uinteger, range: 0~255)
@@ -88,15 +116,15 @@ data:
             interfaces: # Interface list for this UPF
               - interfaceType: N3 # the type of the interface (N3 or N9)
                 endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - upf1.free5gc.org
+                  - 192.168.10.21 #upf1.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
               - interfaceType: N9 # the type of the interface (N3 or N9)
                 endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - upf1.free5gc.org
+                  - 192.168.10.81 #upf1.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
           AnchorUPF2:  # the name of the node
             type: UPF # the type of the node (AN or UPF)
-            node_id: upf2.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
+            node_id: 172.16.30.32 #upf2.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
             sNssaiUpfInfos: # S-NSSAI information list for this UPF
               - sNssai: # S-NSSAI (Single Network Slice Selection Assistance Information)
                   sst: 1 # Slice/Service Type (uinteger, range: 0~255)
@@ -111,11 +139,11 @@ data:
             interfaces: # Interface list for this UPF
               - interfaceType: N3 # the type of the interface (N3 or N9)
                 endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - upf2.free5gc.org
+                  - 192.168.10.22 #upf2.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
               - interfaceType: N9 # the type of the interface (N3 or N9)
                 endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - upf2.free5gc.org
+                  - 192.168.10.82 #upf2.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
         links: # the topology graph of userplane, A and B represent the two nodes of each link
           - A: gNB1
@@ -134,4 +162,44 @@ data:
             ipv4: 8.8.4.4
             ipv6: 2001:4860:4860::8844
       ue_subnet: 60.60.0.0/16
-      nrfUri: http://nrf.free5gc.org:8000 # a valid URI of NRF
+      nrfUri: http://free5gc-nrf:29510 #http://nrf.free5gc.org:8000 # a valid URI of NRF
+
+  uerouting.yaml: |
+    info:
+      version: 1.0.0
+      description: Routing information for UE
+
+    ueRoutingInfo: # the list of UE routing information
+      - SUPI: imsi-2089300007487 # Subscription Permanent Identifier of the UE
+        AN: 10.200.200.101 # the IP address of RAN
+        PathList: # the pre-config paths for this SUPI
+          - DestinationIP: 60.60.0.101 # the destination IP address on Data Network (DN)
+            # the order of UPF nodes in this path. We use the UPF's name to represent each UPF node.
+            # The UPF's name should be consistent with smfcfg.yaml
+            UPF: !!seq
+              - BranchingUPF
+              - AnchorUPF1
+
+          - DestinationIP: 60.60.0.103 # the destination IP address on Data Network (DN)
+            # the order of UPF nodes in this path. We use the UPF's name to represent each UPF node.
+            # The UPF's name should be consistent with smfcfg.yaml
+            UPF: !!seq
+              - BranchingUPF
+              - AnchorUPF2
+
+      - SUPI: imsi-2089300007486 # Subscription Permanent Identifier of the UE
+        AN: 10.200.200.102 # the IP address of RAN
+        PathList: # the pre-config paths for this SUPI
+          - DestinationIP: 10.0.0.10 # the destination IP address on Data Network (DN)
+            # the order of UPF nodes in this path. We use the UPF's name to represent each UPF node.
+            # The UPF's name should be consistent with smfcfg.yaml
+            UPF: !!seq
+              - BranchingUPF
+              - AnchorUPF1
+
+          - DestinationIP: 10.0.0.11 # the destination IP address on Data Network (DN)
+            # the order of UPF nodes in this path. We use the UPF's name to represent each UPF node.
+            # The UPF's name should be consistent with smfcfg.yaml
+            UPF: !!seq
+              - BranchingUPF
+              - AnchorUPF2

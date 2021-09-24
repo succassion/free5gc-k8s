@@ -3,7 +3,26 @@ kind: ConfigMap
 metadata:
   name: free5gc-n3iwf-configmap
 data:
-  n3iwfcfg.conf: |
+  free5gc.yaml: |
+    db_uri: mongodb://free5gc-mongodb:27017/free5GC
+    # the kind of log output
+    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: enable the caller report or not, value: true or false
+    logger:
+      N3IWF:
+        debugLevel: info
+        ReportCaller: true
+      NGAP: 
+        debugLevel: info
+        ReportCaller: true
+      Aper:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
+
+  n3iwfcfg.yaml: |
    info:
      version: 1.0.0
      description: N3IWF initial local configuration
@@ -42,11 +61,11 @@ data:
                        112233
      AMFSCTPAddresses: # the IP list of N2 interfaces (SCTP) on AMF when using NGAP
        - IP:
-         - amf.free5gc.org
-
+         - free5gc-amf
+ 
      # --- Bind Interfaces ---
      IKEBindAddress: # IP address of Nwu interface (IKE) on this N3IWF
-       n3iwf.free5gc.org
+       free5gc-n3iwf
 
      IPSecInterfaceAddress: # IP address of IPSec virtual interface (IPsec tunnel enpoint on this N3IWF)
        10.0.0.1
@@ -55,13 +74,13 @@ data:
        5
 
      GTPBindAddress: # IP address of N3 interface (GTP) on this N3IWF
-       n3iwf.free5gc.org
+       free5gc-n3iwf
 
      NASTCPPort: # TCP port which the NAS listens on
        20000
 
      FQDN: # FQDN of this N3IWF
-       n3iwf.free5gc.org
+       free5gc-n3iwf
 
      # --- Security ---
      PrivateKey: # Private key file path
@@ -70,3 +89,20 @@ data:
 
      UEIPAddressRange: # IP address allocated to UE in IPSec tunnel
        10.0.0.0/24
+  
+  n3iwf-ipsec.sh: |
+    #!/bin/sh
+
+    ### N3iwf IPSec tunnel configuration
+
+    # As per https://github.com/free5gc/free5gc/issues/45#issuecomment-634012712
+    #     IKEBindAddress: dynamically computed by $(hostname -i | awk '{print $1}')
+    #     IPSecInterfaceMark: 5
+    #     IPSecInterfaceAddress: 10.0.0.1
+    #     IPSec subnet CIDR: /24
+    #     N3IWF tunnel interface: ipsec0
+    #      
+
+    ip link add name ipsec0 type vti local $(hostname -i | awk '{print $1}') remote 0.0.0.0 key 5
+    ip addr add 10.0.0.1/24 dev ipsec0
+    ip link set dev ipsec0 up

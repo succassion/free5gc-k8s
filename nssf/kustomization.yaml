@@ -1,0 +1,6 @@
+resources:
+  - free5gc-nssf-configmap.yaml
+  - free5gc-nssf-service.yaml
+  - free5gc-nssf-deployment.yaml
+ 
+namespace: free5gc-k8s

@@ -1,0 +1,5 @@
+resources:
+  - free5gc-n3iwf-configmap.yaml
+  - free5gc-n3iwf-deployment.yaml
+
+namespace: free5gc-k8s

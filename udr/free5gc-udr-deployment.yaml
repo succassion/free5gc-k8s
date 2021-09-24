@@ -1,51 +1,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-udr
   name: free5gc-udr
+  labels:
+    app: free5gc-udr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: free5gc-udr
+      app: free5gc-udr
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network/privnet: "true"
-        io.kompose.service: free5gc-udr
+        app: free5gc-udr
     spec:
-      containers:
-        - args:
-            - ./udr
-            - -udrcfg
-            - ../config/udrcfg.yaml
-          env:
-            - name: DB_URI
-              value: mongodb://db/free5gc
-            - name: GIN_MODE
-              value: release
-          image: free5gc-udr
-          name: udr
-          ports:
-            - containerPort: 8000
-          resources: {}
-          volumeMounts:
-            - mountPath: /free5gc/config/udrcfg.yaml
-              name: free5gc-udr-claim0
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-udr
+        image: succassion/free5gc-compose_free5gc-udr
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./udr -udrcfg ../config/udrcfg.yaml"]
+        ports:
+        - name: free5gc-udr
+          containerPort: 29504
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /free5gc/config/udrcfg.yaml
+          name: udrcfg
+          subPath: udrcfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
-        - name: free5gc-udr-claim0
-          persistentVolumeClaim:
-            claimName: free5gc-udr-claim0
-status: {}
+        - name: udrcfg
+          configMap:
+            name: free5gc-udr-configmap
+            items:
+            - key: udrcfg.yaml
+              path: udrcfg.yaml
+        - name: free5gc
+          configMap:
+            name: free5gc-udr-configmap
+            items:
+            - key: free5gc.yaml
+              path: free5gc.yaml

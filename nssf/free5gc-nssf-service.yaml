@@ -1,19 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-nssf
   name: free5gc-nssf
+  labels:
+    app: free5gc-nssf
 spec:
+  type: ClusterIP
   ports:
-    - name: "8000"
-      port: 8000
-      targetPort: 8000
+    - name: free5gc-nssf
+      port: 29531
+      protocol: TCP
+      targetPort: 29531
   selector:
-    io.kompose.service: free5gc-nssf
-status:
-  loadBalancer: {}
+    app: free5gc-nssf

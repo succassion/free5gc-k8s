@@ -1,49 +1,54 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-ausf
   name: free5gc-ausf
+  labels:
+    app: free5gc-ausf
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: free5gc-ausf
+      app: free5gc-ausf
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network/privnet: "true"
-        io.kompose.service: free5gc-ausf
+        app: free5gc-ausf
     spec:
-      containers:
-        - args:
-            - ./ausf
-            - -ausfcfg
-            - ../config/ausfcfg.yaml
-          env:
-            - name: GIN_MODE
-              value: release
-          image: free5gc-ausf
-          name: ausf
-          ports:
-            - containerPort: 8000
-          resources: {}
-          volumeMounts:
-            - mountPath: /free5gc/config/ausfcfg.yaml
-              name: free5gc-ausf-claim0
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-amf
+        image: succassion/free5gc-compose_free5gc-ausf
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./ausf -ausfcfg ../config/ausfcfg.yaml"]
+        ports:
+        - name: free5gc-ausf
+          containerPort: 29509
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /free5gc/config/ausfcfg.yaml
+          name: ausfcfg
+          subPath: ausfcfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
-        - name: free5gc-ausf-claim0
-          persistentVolumeClaim:
-            claimName: free5gc-ausf-claim0
-status: {}
+      - name: ausfcfg
+        configMap:
+          name: free5gc-ausf-configmap
+          items:
+          - key: ausfcfg.yaml
+            path: ausfcfg.yaml
+      - name: free5gc
+        configMap:
+          name: free5gc-ausf-configmap
+          items:
+          - key: free5gc.yaml
+            path: free5gc.yaml
+

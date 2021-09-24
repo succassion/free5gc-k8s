@@ -1,0 +1,7 @@
+resources:
+  - free5gc-ausf-configmap.yaml
+  - free5gc-ausf-service.yaml
+  - free5gc-ausf-deployment.yaml
+ 
+namespace: free5gc-k8s
+

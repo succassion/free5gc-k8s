@@ -1,0 +1,6 @@
+resources:
+  - free5gc-nrf-configmap.yaml
+  - free5gc-nrf-service.yaml
+  - free5gc-nrf-deployment.yaml
+
+namespace: free5gc-k8s

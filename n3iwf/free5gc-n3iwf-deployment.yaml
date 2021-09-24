@@ -1,56 +1,59 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-n3iwf
   name: free5gc-n3iwf
+  labels:
+    app: free5gc-n3iwf
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: free5gc-n3iwf
+      app: free5gc-n3iwf
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network/privnet: "true"
-        io.kompose.service: free5gc-n3iwf
+        app: free5gc-n3iwf
     spec:
-      containers:
-        - args:
-            - sh
-            - -c
-            - ./n3iwf-ipsec.sh && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml
-          env:
-            - name: GIN_MODE
-              value: release
-          image: free5gc-n3iwf
-          name: n3iwf
-          resources: {}
-          securityContext:
-            capabilities:
-              add:
-                - NET_ADMIN
-          volumeMounts:
-            - mountPath: /free5gc/config/n3iwfcfg.yaml
-              name: free5gc-n3iwf-claim0
-            - mountPath: /free5gc/n3iwf/n3iwf-ipsec.sh
-              name: free5gc-n3iwf-claim1
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-amf
+        image: succassion/free5gc-compose_free5gc-amf
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml"]
+        volumeMounts:
+        - mountPath: /free5gc/config/n3iwfcfg.yaml
+          name: n3iwfcfg
+          subPath: n3iwfcfg.yaml
+        - mountPath: /free5gc/config/n3iwf-ipsec.sh
+          name: n3iwf-ipsec
+          subPath: n3iwf-ipsec.sh
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
-        - name: free5gc-n3iwf-claim0
-          persistentVolumeClaim:
-            claimName: free5gc-n3iwf-claim0
-        - name: free5gc-n3iwf-claim1
-          persistentVolumeClaim:
-            claimName: free5gc-n3iwf-claim1
-status: {}
+        - name: n3iwfcfg
+          configMap:
+            name: free5gc-n3iwf-configmap
+            items:
+            - key: n3iwfcfg.yaml
+              path: n3iwfcfg.yaml
+        - name: n3iwf-ipsec
+          configMap:
+            name: free5gc-n3iwf-configmap
+            items:
+            - key: n3iwf-ipsec.sh
+              path: n3iwf-ipsec.sh
+        - name: free5gc
+          configMap:
+            name: free5gc-n3iwf-configmap
+            items:
+            - key: free5gc.yaml
+              path: free5gc.yaml
+ 

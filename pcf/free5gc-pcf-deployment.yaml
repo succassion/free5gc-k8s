@@ -1,49 +1,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-pcf
   name: free5gc-pcf
+  labels:
+    app: free5gc-pcf
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: free5gc-pcf
+      app: free5gc-pcf
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network/privnet: "true"
-        io.kompose.service: free5gc-pcf
+        app: free5gc-pcf
     spec:
-      containers:
-        - args:
-            - ./pcf
-            - -pcfcfg
-            - ../config/pcfcfg.yaml
-          env:
-            - name: GIN_MODE
-              value: release
-          image: free5gc-pcf
-          name: pcf
-          ports:
-            - containerPort: 8000
-          resources: {}
-          volumeMounts:
-            - mountPath: /free5gc/config/pcfcfg.yaml
-              name: free5gc-pcf-claim0
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-pcf
+        image: succassion/free5gc-compose_free5gc-pcf
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./pcf -pcfcfg ../config/pcfcfg.yaml"]
+        ports:
+        - name: free5gc-pcf
+          containerPort: 29507
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /free5gc/config/pcfcfg.yaml
+          name: pcfcfg
+          subPath: pcfcfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
-        - name: free5gc-pcf-claim0
-          persistentVolumeClaim:
-            claimName: free5gc-pcf-claim0
-status: {}
+        - name: pcfcfg
+          configMap:
+            name: free5gc-pcf-configmap
+            items:
+            - key: pcfcfg.yaml
+              path: pcfcfg.yaml
+        - name: free5gc
+          configMap:
+            name: free5gc-pcf-configmap
+            items:
+            - key: free5gc.yaml
+              path: free5gc.yaml

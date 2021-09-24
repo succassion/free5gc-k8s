@@ -3,20 +3,25 @@ kind: ConfigMap
 metadata:
   name: free5gc-upf-configmap
 data:
+  free5gc.yaml: |
+    UPF:
+      # the kind of log output
+      # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+      # ReportCaller: enable the caller report or not, value: true or false
+      debugLebel: info
+      ReportCaller: true
+ 
   upfcfg.yaml: |
     info:
       version: 1.0.0
       description: UPF configuration
 
     configuration:
-      # debugLevel: panic|fatal|error|warn|info|debug|trace
-      debugLevel: info
-
       pfcp:
-        - addr: upf1.free5gc.org
+        - addr: 172.16.30.30 #upf1.free5gc.org
 
       gtpu:
-        - addr: upf1.free5gc.org
+        - addr: 192.168.10.20 #upf1.free5gc.org
         # [optional] gtpu.name
         #   - name: upf.5gc.nctu.me
         # [optional] gtpu.ifname
@@ -24,7 +29,7 @@ data:
 
       dnn_list:
         - dnn: internet
-          cidr: 60.60.0.0/16
+          cidr: 172.16.1.0/16 #60.60.0.0/16
           # [optional] apn_list[*].natifname
           # natifname: eth0
         - dnn: internet2

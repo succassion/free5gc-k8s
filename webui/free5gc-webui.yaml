@@ -17,17 +17,15 @@ spec:
       labels:
         app: free5gc-webui
     spec:
+      dnsPolicy: ClusterFirst
+      schedulerName: default-scheduler
       restartPolicy: Always
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 30
       containers:
       - name: free5gc-webui
         image: succassion/free5gc-compose_free5gc-webui
         imagePullPolicy: IfNotPresent
         command: ["./webui"]
-        #- /bin/sh
-        #- "-c"
-        #- "sleep 60m"
-        #- "./webui"
         ports:
         - name: free5gc-webui
           containerPort: 5000

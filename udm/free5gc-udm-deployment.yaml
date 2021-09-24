@@ -1,49 +1,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-udm
   name: free5gc-udm
+  labels:
+    app: free5gc-udm
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: free5gc-udm
+      app: free5gc-udm
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network/privnet: "true"
-        io.kompose.service: free5gc-udm
+        app: free5gc-udm
     spec:
-      containers:
-        - args:
-            - ./udm
-            - -udmcfg
-            - ../config/udmcfg.yaml
-          env:
-            - name: GIN_MODE
-              value: release
-          image: free5gc-udm
-          name: udm
-          ports:
-            - containerPort: 8000
-          resources: {}
-          volumeMounts:
-            - mountPath: /free5gc/config/udmcfg.yaml
-              name: free5gc-udm-claim0
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-udm
+        image: succassion/free5gc-compose_free5gc-udm
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./udm -udmcfg ../config/udmcfg.yaml"]
+        ports:
+        - containerPort: 29503
+          name: free5gc-udm
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /free5gc/config/udmcfg.yaml
+          name: udmcfg
+          subPath: udmcfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
-        - name: free5gc-udm-claim0
-          persistentVolumeClaim:
-            claimName: free5gc-udm-claim0
-status: {}
+      - name: udmcfg
+        configMap:
+          name: free5gc-udm-configmap
+          items:
+          - key: udmcfg.yaml
+            path: udmcfg.yaml
+      - name: free5gc
+        configMap:
+          name: free5gc-udm-configmap
+          items:
+          - key: free5gc.yaml
+            path: free5gc.yaml

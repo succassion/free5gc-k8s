@@ -1,0 +1,6 @@
+resources:
+  - free5gc-udr-configmap.yaml
+  - free5gc-udr-service.yaml
+  - free5gc-udr-deployment.yaml
+
+namespace: free5gc-k8s

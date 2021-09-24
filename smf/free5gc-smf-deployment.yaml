@@ -1,56 +1,67 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.22.0 (955b78124)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: free5gc-smf
   name: free5gc-smf
+  labels:
+    app: free5gc-smf
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: free5gc-smf
+      app: free5gc-smf
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: kompose convert
-        kompose.version: 1.22.0 (955b78124)
-      creationTimestamp: null
       labels:
-        io.kompose.network/privnet: "true"
-        io.kompose.service: free5gc-smf
+        app: free5gc-smf
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-smf-n4
     spec:
-      containers:
-        - args:
-            - ./smf
-            - -smfcfg
-            - ../config/smfcfg.yaml
-            - -uerouting
-            - ../config/uerouting.yaml
-          env:
-            - name: GIN_MODE
-              value: release
-          image: free5gc-smf
-          name: smf
-          ports:
-            - containerPort: 8000
-          resources: {}
-          volumeMounts:
-            - mountPath: /free5gc/config/smfcfg.yaml
-              name: free5gc-smf-claim0
-            - mountPath: /free5gc/config/uerouting.yaml
-              name: free5gc-smf-claim1
+      dnsPolicy: ClusterFirst
       restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-smf
+        image: succassion/free5gc-compose_free5gc-smf
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./smf -smfcfg ../config/smfcfg.yaml -uerouting ../config/uerouting.yaml"]
+        ports:
+        - name: if-sbi
+          containerPort: 29502
+          protocol: TCP
+        - name: if-n4
+          containerPort: 8805
+          protocol: UDP
+        volumeMounts:
+        - mountPath: /free5gc/config/smfcfg.yaml
+          name: smfcfg
+          subPath: smfcfg.yaml
+        - mountPath: /free5gc/config/uerouting.yaml
+          name: uerouting
+          subPath: uerouting.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
       volumes:
-        - name: free5gc-smf-claim0
-          persistentVolumeClaim:
-            claimName: free5gc-smf-claim0
-        - name: free5gc-smf-claim1
-          persistentVolumeClaim:
-            claimName: free5gc-smf-claim1
-status: {}
+        - name: smfcfg
+          configMap:
+            name: free5gc-smf-configmap
+            items:
+            - key: smfcfg.yaml
+              path: smfcfg.yaml
+        - name: uerouting
+          configMap:
+            name: free5gc-smf-configmap
+            items:
+            - key: uerouting.yaml
+              path: uerouting.yaml
+        - name: free5gc
+          configMap:
+            name: free5gc-smf-configmap
+            items:
+            - key: free5gc.yaml
+              path: free5gc.yaml

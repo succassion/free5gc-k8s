@@ -6,6 +6,9 @@ data:
   free5gc.yaml: |
     # webui
     WEBUI:
+      # the kind of log output
+      # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+      # ReportCaller: enable the caller report or not, value: true or false
       debugLevel: info
       ReportCaller: true
 

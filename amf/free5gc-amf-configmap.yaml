@@ -3,7 +3,36 @@ kind: ConfigMap
 metadata:
   name: free5gc-amf-configmap
 data:
-  amfcfg.conf: |
+  free5gc.yaml: |
+    db_uri: mongodb://free5gc-mongodb:27017/free5GC
+
+    # the kind of log output
+    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: enable the caller report or not, value: true or false
+    logger:
+      AMF:
+        debugLevel: info
+        ReportCaller: true
+      NAS:
+        debugLevel: info
+        ReportCaller: true
+      FSM:
+        debugLevel: info
+        ReportCaller: true
+      NGAP:
+        debugLevel: info
+        ReportCaller: true
+      Aper:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
+      OpenApi:
+        debugLevel: info
+        ReportCaller: true
+
+  amfcfg.yaml: |
     info:
       version: 1.0.0
       description: AMF initial local configuration
@@ -11,12 +40,12 @@ data:
     configuration:
       amfName: AMF # the name of this AMF
       ngapIpList:  # the IP list of N2 interfaces on this AMF
-        - amf.free5gc.org
+        - 0.0.0.0   #amf.free5gc.org
       sbi: # Service-based interface information
         scheme: http # the protocol for sbi (http or https)
-        registerIPv4: amf.free5gc.org # IP used to register to NRF
-        bindingIPv4: amf.free5gc.org  # IP used to bind the service
-        port: 8000 # port used to bind the service
+        registerIPv4: free5gc-amf #amf.free5gc.org # IP used to register to NRF
+        bindingIPv4: 0.0.0.0 #amf.free5gc.org  # IP used to bind the service
+        port: 29518 # port used to bind the service
       serviceNameList: # the SBI services provided by this AMF, refer to TS 29.518
         - namf-comm # Namf_Communication service
         - namf-evts # Namf_EventExposure service
@@ -45,7 +74,7 @@ data:
               sd: 112233 # Slice Differentiator (3 bytes hex string, range: 000000~FFFFFF)
       supportDnnList:  # the DNN (Data Network Name) list supported by this AMF
         - internet
-      nrfUri: http://nrf.free5gc.org:8000 # a valid URI of NRF
+      nrfUri: http://free5gc-nrf:29510 #http://nrf.free5gc.org:29510 # a valid URI of NRF
       security:  # NAS security parameters
         integrityOrder: # the priority of integrity algorithms
           - NIA2

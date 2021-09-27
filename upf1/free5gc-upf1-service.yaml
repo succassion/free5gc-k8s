@@ -8,11 +8,11 @@ spec:
   selector:
     app: free5gc-upf1
   ports:
-  - name: free5gc-upf1-n3
+  - name: free5gc-upf-n3
     port: 2152
     protocol: UDP
     targetPort: 2152
-  - name: free5gc-upf1-n4
+  - name: free5gc-upf-n4
     port: 8805
     protocol: UDP
     targetPort: 8805

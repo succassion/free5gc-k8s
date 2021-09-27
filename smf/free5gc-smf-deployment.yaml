@@ -36,6 +36,9 @@ spec:
         - name: if-n4
           containerPort: 8805
           protocol: UDP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/smfcfg.yaml
           name: smfcfg

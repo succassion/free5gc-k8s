@@ -31,6 +31,9 @@ spec:
         - containerPort: 29531
           name: free5gc-nssf
           protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/nssfcfg.yaml
           name: nssfcfg

@@ -31,6 +31,9 @@ spec:
         - containerPort: 29503
           name: free5gc-udm
           protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/udmcfg.yaml
           name: udmcfg

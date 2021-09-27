@@ -31,6 +31,9 @@ spec:
         - name: free5gc-ausf
           containerPort: 29509
           protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/ausfcfg.yaml
           name: ausfcfg

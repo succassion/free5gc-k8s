@@ -9,7 +9,7 @@ data:
       # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
       # ReportCaller: enable the caller report or not, value: true or false
       debugLebel: info
-      ReportCaller: true
+      ReportCaller: false
  
   upfcfg.yaml: |
     info:
@@ -29,10 +29,18 @@ data:
 
       dnn_list:
         - dnn: internet
-          cidr: 172.16.1.0/16 #60.60.0.0/16
+          cidr: 60.60.0.0/24
           # [optional] apn_list[*].natifname
           # natifname: eth0
         - dnn: internet2
-          cidr: 10.10.0.0/16
+          cidr: 10.10.0.0/24
           # [optional] apn_list[*].natifname
           # natifname: eth0
+
+  upfipset.sh: |
+    #!/bin/sh
+    ### UPF IPtables forwarding rules configuration
+
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    iptables -I FORWARD 1 -j ACCEPT
+    iptables -t nat -A POSTROUTING -o upfgtp -j MASQUERADE

@@ -29,6 +29,9 @@ spec:
         - name: free5gc-nrf
           containerPort: 29510
           protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/nrfcfg.yaml
           name: nrfcfg

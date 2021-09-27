@@ -36,6 +36,9 @@ spec:
         - name: if-n1n2
           containerPort: 38412
           protocol: SCTP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/amfcfg.yaml
           name: amfcfg

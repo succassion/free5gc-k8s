@@ -31,6 +31,9 @@ spec:
         - name: free5gc-pcf
           containerPort: 29507
           protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
         volumeMounts:
         - mountPath: /free5gc/config/pcfcfg.yaml
           name: pcfcfg

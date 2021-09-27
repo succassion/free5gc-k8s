@@ -29,7 +29,7 @@ data:
 
       dnn_list:
         - dnn: internet
-          cidr: 172.16.1.0/24 #60.60.0.0/16
+          cidr: 60.60.0.0/16
           # [optional] apn_list[*].natifname
           # natifname: eth0
         - dnn: internet2

@@ -29,10 +29,17 @@ data:
 
       dnn_list:
         - dnn: internet
-          cidr: 60.60.0.0/16
+          cidr: 60.60.0.0/24
           # [optional] apn_list[*].natifname
           # natifname: eth0
         - dnn: internet2
-          cidr: 10.10.0.0/16
+          cidr: 10.10.0.0/24
           # [optional] apn_list[*].natifname
           # natifname: eth0
+
+  upfipset.sh: |
+    #!/bin/sh
+    ### UPF IPtables forwarding rules configuration
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    iptables -I FORWARD 1 -j ACCEPT
+    iptables -t nat -A POSTROUTING -o upfgtp -j MASQUERADE

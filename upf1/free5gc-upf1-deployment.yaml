@@ -28,7 +28,7 @@ spec:
           capabilities:
               add: ["NET_ADMIN", "NET_RAW", "NET_BIND_SERVICE", "SYS_TIME"]
         command: ["/bin/sh", "-ec"]
-        args: ["sleep 5 && ./free5gc-upfd -f ../config/upfcfg.yaml"]
+        args: ["sleep 5 && ../config/upfipset.sh && ./free5gc-upfd -f ../config/upfcfg.yaml"]
         ports:
         - name: if-n3
           containerPort: 2152
@@ -43,6 +43,10 @@ spec:
         - mountPath: /free5gc/config/free5gc.yaml
           name: free5gc
           subPath: free5gc.yaml
+        - mountPath: /free5gc/config/upfipset.sh
+          name: upfipset
+          readOnly: true
+          subPath: upfipset.sh
         - mountPath: /dev/net/tun
           name: tun-dev
       volumes:
@@ -58,6 +62,13 @@ spec:
           items:
           - key: free5gc.yaml
             path: free5gc.yaml
+      - name: upfipset
+        configMap:
+          name: free5gc-upf1-configmap
+          defaultMode: 0700
+          items:
+          - key: upfipset.sh
+            path: upfipset.sh
       - name: tun-dev
         hostPath:
           path: /dev/net/tun

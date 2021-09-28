@@ -23,10 +23,8 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: free5gc-webui
-        image: succassion/free5gc-compose_free5gc-webui
+        image: succassion/free5gc-webui
         imagePullPolicy: IfNotPresent
-        #securityContext:
-          #privileged: false
         command: ["./webui"]
         ports:
         - name: free5gc-webui

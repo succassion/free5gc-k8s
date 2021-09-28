@@ -4,11 +4,6 @@ metadata:
   name: free5gc-pcf
   labels:
     app: free5gc-pcf
-  annotations:
-    free5gc.org/nssi-id: '27394d25-dbf5-428e-8fc3-f5b2add67115'
-    free5gc.org/nsi-ids: '[
-        { "id": "4e6db941-47d6-4fce-9c71-f7eb35a75d03" },
-    ]'
 spec:
   replicas: 1
   selector:
@@ -28,8 +23,6 @@ spec:
       - name: free5gc-pcf
         image: succassion/free5gc-pcf
         imagePullPolicy: IfNotPresent
-        #securityContext:
-          #privileged: false
         command: ["/bin/sh", "-ec"]
         args: ["sleep 5 && ./pcf -pcfcfg ../config/pcfcfg.yaml"]
         ports:

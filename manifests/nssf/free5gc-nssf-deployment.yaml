@@ -4,19 +4,6 @@ metadata:
   name: free5gc-nssf
   labels:
     app: free5gc-nssf
-  annotations:
-    free5gc.org/nssi-id: '27394d25-dbf5-428e-8fc3-f5b2add67115'
-    free5gc.org/nsi-ids: '[
-        { "id": "4e6db941-47d6-4fce-9c71-f7eb35a75d03" },
-    ]'
-    free5gc.org/supported-snssais: '[
-        { "st": 1,
-          "ssd": "010203",
-        },
-        { "st": 1,
-          "ssd": "112233",
-        },
-    ]'
 spec:
   replicas: 1
   selector:
@@ -36,8 +23,6 @@ spec:
       - name: free5gc-nssf
         image: succassion/free5gc-nssf
         imagePullPolicy: IfNotPresent
-        #securityContext:
-          #privileged: false
         command: ["/bin/sh", "-ec"]
         args: ["sleep 10 && ./nssf -nssfcfg ../config/nssfcfg.yaml"]
         ports:

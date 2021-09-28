@@ -4,11 +4,6 @@ metadata:
   name: free5gc-nrf
   labels:
     app: free5gc-nrf
-  annotations:
-    free5gc.org/nssi-id: '27394d25-dbf5-428e-8fc3-f5b2add67115'
-    free5gc.org/nsi-ids: '[
-        { "id": "4e6db941-47d6-4fce-9c71-f7eb35a75d03" },
-    ]'
 spec:
   replicas: 1
   selector:
@@ -26,8 +21,6 @@ spec:
       - name: free5gc-nrf
         image: succassion/free5gc-nrf
         imagePullPolicy: IfNotPresent
-        #securityContext:
-          #privileged: false
         command: ["/bin/sh", "-ec"]
         args: ["sleep 5 && ./nrf -nrfcfg ../config/nrfcfg.yaml"]
         ports:

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-udr
+  labels:
+    app: free5gc-udr
+  annotations:
+    free5gc.org/nssi-id: '27394d25-dbf5-428e-8fc3-f5b2add67115'
+    free5gc.org/nsi-ids: '[
+        { "id": "4e6db941-47d6-4fce-9c71-f7eb35a75d03" },
+    ]'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc-udr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: free5gc-udr
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-udr
+        image: succassion/free5gc-udr
+        imagePullPolicy: IfNotPresent
+        #securityContext:
+          #privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./udr -udrcfg ../config/udrcfg.yaml"]
+        ports:
+        - name: free5gc-udr
+          containerPort: 29504
+          protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
+        volumeMounts:
+        - mountPath: /free5gc/config/udrcfg.yaml
+          name: udrcfg
+          subPath: udrcfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
+      volumes:
+        - name: udrcfg
+          configMap:
+            name: free5gc-udr-configmap
+            items:
+            - key: udrcfg.yaml
+              path: udrcfg.yaml
+        - name: free5gc
+          configMap:
+            name: free5gc-udr-configmap
+            items:
+            - key: free5gc.yaml
+              path: free5gc.yaml

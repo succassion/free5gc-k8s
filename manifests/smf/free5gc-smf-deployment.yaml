@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-smf
+  labels:
+    app: free5gc-smf
+    sliceidx: 6d3d79da-f781-4cd9-813a-dbdad01e01c0
+  annotations:
+    free5gc.org/nssi-id: '27394d25-dbf5-428e-8fc3-f5b2add67115'
+    free5gc.org/nsi-ids: '[
+        { "id": "4e6db941-47d6-4fce-9c71-f7eb35a75d03" },
+    ]'
+    free5gc.org/supported-snssais: '[
+        { "st": 1,
+          "ssd": "010203",
+        },
+        { "st": 1,
+          "ssd": "112233",
+        },
+    ]'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc-smf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: free5gc-smf
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-smf-n4
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-smf
+        image: succassion/free5gc-smf
+        imagePullPolicy: IfNotPresent
+        #securityContext:
+          #privileged: false
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./smf -smfcfg ../config/smfcfg.yaml -uerouting ../config/uerouting.yaml"]
+        ports:
+        - name: if-sbi
+          containerPort: 29502
+          protocol: TCP
+        - name: if-n4
+          containerPort: 8805
+          protocol: UDP
+        env:
+        - name: GIN_MODE
+          value: release
+        volumeMounts:
+        - mountPath: /free5gc/config/smfcfg.yaml
+          name: smfcfg
+          subPath: smfcfg.yaml
+        - mountPath: /free5gc/config/uerouting.yaml
+          name: uerouting
+          subPath: uerouting.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
+      volumes:
+        - name: smfcfg
+          configMap:
+            name: free5gc-smf-configmap
+            items:
+            - key: smfcfg.yaml
+              path: smfcfg.yaml
+        - name: uerouting
+          configMap:
+            name: free5gc-smf-configmap
+            items:
+            - key: uerouting.yaml
+              path: uerouting.yaml
+        - name: free5gc
+          configMap:
+            name: free5gc-smf-configmap
+            items:
+            - key: free5gc.yaml
+              path: free5gc.yaml

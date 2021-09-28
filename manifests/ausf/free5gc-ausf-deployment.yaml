@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-ausf
+  labels:
+    app: free5gc-ausf
+  annotations:
+    free5gc.org/nssi-id: '27394d25-dbf5-428e-8fc3-f5b2add67115'
+    free5gc.org/nsi-ids: '[
+        { "id": "4e6db941-47d6-4fce-9c71-f7eb35a75d03" },
+    ]'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc-ausf
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: free5gc-ausf
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-amf
+        image: succassion/free5gc-compose_free5gc-ausf
+        imagePullPolicy: IfNotPresent
+        #securityContext:
+          #privileged: true
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && ./ausf -ausfcfg ../config/ausfcfg.yaml"]
+        ports:
+        - name: free5gc-ausf
+          containerPort: 29509
+          protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
+        volumeMounts:
+        - mountPath: /free5gc/config/ausfcfg.yaml
+          name: ausfcfg
+          subPath: ausfcfg.yaml
+        - mountPath: /free5gc/config/free5gc.yaml
+          name: free5gc
+          subPath: free5gc.yaml
+      volumes:
+      - name: ausfcfg
+        configMap:
+          name: free5gc-ausf-configmap
+          items:
+          - key: ausfcfg.yaml
+            path: ausfcfg.yaml
+      - name: free5gc
+        configMap:
+          name: free5gc-ausf-configmap
+          items:
+          - key: free5gc.yaml
+            path: free5gc.yaml
+

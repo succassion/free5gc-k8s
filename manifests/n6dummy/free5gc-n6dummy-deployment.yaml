@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app: free5gc-n6dummy
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -22,10 +22,18 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       containers:
-        - name: free5gc-n6dummy
-          image: docker.io/centos/tools:latest
-          imagePullPolicy: IfNotPresent
-          command:
-          - /sbin/init
-          #securityContext:
-            #privileged: true
+      - name: free5gc-n6dummy
+        image: docker.io/centos/tools:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+            privileged: true
+        command:
+        - /sbin/init
+        resources:
+          requests:
+            memory: "16Mi"
+            cpu: "100m"
+          limits:
+            memory: "16Mi"
+            cpu: "100m"
+

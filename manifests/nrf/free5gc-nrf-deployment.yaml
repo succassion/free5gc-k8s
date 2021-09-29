@@ -9,6 +9,8 @@ spec:
   selector:
     matchLabels:
       app: free5gc-nrf
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -30,6 +32,13 @@ spec:
         env:
         - name: GIN_MODE
           value: release
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "150m"
+          limits:
+            memory: "32Mi"
+            cpu: "150m"
         volumeMounts:
         - mountPath: /free5gc/config/nrfcfg.yaml
           name: nrfcfg

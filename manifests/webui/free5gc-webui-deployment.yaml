@@ -30,6 +30,16 @@ spec:
         - name: free5gc-webui
           containerPort: 5000
           protocol: TCP
+        env:
+        - name: GIN_MODE
+          value: release
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
         volumeMounts:
         - mountPath: /free5gc/config/webuicfg.yaml
           name: webuicfg
@@ -37,9 +47,6 @@ spec:
         - mountPath: /free5gc/config/free5gc.yaml
           name: free5gc
           subPath: free5gc.yaml
-        env:
-        - name: GIN_MODE
-          value: release
       volumes:
       - name: webuicfg
         configMap:

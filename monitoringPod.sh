@@ -18,13 +18,13 @@ read INPUTPOD
 
 if [ "${INPUTPOD}" == "all-namespaces" ];
 then
-    kubectl get pods --all-namespaces
+    CMD="kubectl get pods -o wide --all-namespaces"
 else
     if [ -z "$INPUTPOD" ];
     then
-        CMD="kubectl get pods --all-namespaces"
+        CMD="kubectl get pods -o wide --all-namespaces"
     else
-        CMD="kubectl get pods -n ${INPUTPOD}"
+        CMD="kubectl get pods -o wide -n ${INPUTPOD}"
     fi
 fi
 

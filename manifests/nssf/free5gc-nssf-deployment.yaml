@@ -10,7 +10,7 @@ spec:
     matchLabels:
       app: free5gc-nssf
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -32,6 +32,13 @@ spec:
         env:
         - name: GIN_MODE
           value: release
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "150m"
+          limits:
+            memory: "32Mi"
+            cpu: "150m"
         volumeMounts:
         - mountPath: /free5gc/config/nssfcfg.yaml
           name: nssfcfg

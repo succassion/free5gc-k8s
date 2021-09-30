@@ -3,34 +3,6 @@ kind: ConfigMap
 metadata:
   name: free5gc-smf-configmap
 data:
-  free5gc.yaml: |
-    db_uri: mongodb://free5gc-mongodb:27017/free5GC
-    # the kind of log output
-    # debugLevel: trace, debug, info, warn, error, fatal, panic
-    # ReportCaller: true or false
-    logger:
-      SMF:
-        debugLevel: info
-        ReportCaller: true
-      NAS:
-        debugLevel: info
-        ReportCaller: true
-      NGAP:
-        debugLevel: info
-        ReportCaller: true
-      Aper:
-        debugLevel: info
-        ReportCaller: true
-      PathUtil:
-        debugLevel: info
-        ReportCaller: true
-      OpenApi:
-        debugLevel: info
-        ReportCaller: true
-      PFCP:
-        debugLevel: info
-        ReportCaller: true
-
   smfcfg.yaml: |
     info:
       version: 1.0.0
@@ -76,6 +48,7 @@ data:
         up_nodes: # information of userplane node (AN or UPF)
           gNB1: # the name of the node
             type: AN # the type of the node (AN or UPF)
+            an_ip: 192.168.10.10
           BranchingUPF:  # the name of the node
             type: UPF # the type of the node (AN or UPF)
             node_id: 172.16.30.30 #upfb.free5gc.org # the IP/FQDN of N4 interface on this UPF (PFCP)
@@ -95,10 +68,10 @@ data:
                 endpoints: # the IP address of this N3/N9 interface on this UPF
                   - 192.168.10.20 #upfb.free5gc.org
                 networkInstance: internet # Data Network Name (DNN)
-              - interfaceType: N9 # the type of the interface (N3 or N9)
-                endpoints: # the IP address of this N3/N9 interface on this UPF
-                  - 192.168.10.80 #upfb.free5gc.org
-                networkInstance: internet # Data Network Name (DNN)
+              #- interfaceType: N9 # the type of the interface (N3 or N9)
+                #endpoints: # the IP address of this N3/N9 interface on this UPF
+                  #- 192.168.10.80 #upfb.free5gc.org
+                #networkInstance: internet # Data Network Name (DNN)
         links: # the topology graph of userplane, A and B represent the two nodes of each link
           - A: gNB1
             B: BranchingUPF
@@ -114,6 +87,32 @@ data:
       ue_subnet: 60.60.0.0/16
       nrfUri: http://free5gc-nrf:29510 #http://nrf.free5gc.org:8000 # a valid URI of NRF
 
+    # the kind of log output
+    # debugLevel: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: true or false
+    logger:
+      SMF:
+        debugLevel: info
+        ReportCaller: true
+      NAS:
+        debugLevel: info
+        ReportCaller: true
+      NGAP:
+        debugLevel: info
+        ReportCaller: true
+      Aper:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
+      OpenApi:
+        debugLevel: info
+        ReportCaller: true
+      PFCP:
+        debugLevel: info
+        ReportCaller: true
+
   uerouting.yaml: |
     info:
       version: 1.0.0
@@ -128,14 +127,12 @@ data:
             # The UPF's name should be consistent with smfcfg.yaml
             UPF: !!seq
               - BranchingUPF
-              - AnchorUPF1
 
           - DestinationIP: 60.60.0.103 # the destination IP address on Data Network (DN)
             # the order of UPF nodes in this path. We use the UPF's name to represent each UPF node.
             # The UPF's name should be consistent with smfcfg.yaml
             UPF: !!seq
               - BranchingUPF
-              - AnchorUPF2
 
       - SUPI: imsi-2089300007486 # Subscription Permanent Identifier of the UE
         AN: 10.200.200.102 # the IP address of RAN
@@ -145,11 +142,9 @@ data:
             # The UPF's name should be consistent with smfcfg.yaml
             UPF: !!seq
               - BranchingUPF
-              - AnchorUPF1
 
           - DestinationIP: 10.0.0.11 # the destination IP address on Data Network (DN)
             # the order of UPF nodes in this path. We use the UPF's name to represent each UPF node.
             # The UPF's name should be consistent with smfcfg.yaml
             UPF: !!seq
               - BranchingUPF
-              - AnchorUPF2

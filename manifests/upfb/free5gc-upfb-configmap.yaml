@@ -3,14 +3,6 @@ kind: ConfigMap
 metadata:
   name: free5gc-upf-configmap
 data:
-  free5gc.yaml: |
-    UPF:
-      # the kind of log output
-      # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
-      # ReportCaller: enable the caller report or not, value: true or false
-      debugLebel: info
-      ReportCaller: true
- 
   upfcfg.yaml: |
     info:
       version: 1.0.0
@@ -37,6 +29,12 @@ data:
           cidr: 10.10.0.0/16
           # [optional] apn_list[*].natifname
           # natifname: eth0
+
+      # the kind of log output
+      # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+      # ReportCaller: enable the caller report or not, value: true or false
+      debugLebel: info
+      ReportCaller: true
 
   upfipset.sh: |
     #!/bin/sh

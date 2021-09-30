@@ -44,9 +44,6 @@ spec:
         - mountPath: /free5gc/config/webuicfg.yaml
           name: webuicfg
           subPath: webuicfg.yaml
-        - mountPath: /free5gc/config/free5gc.yaml
-          name: free5gc
-          subPath: free5gc.yaml
       volumes:
       - name: webuicfg
         configMap:
@@ -54,9 +51,3 @@ spec:
           items:
           - key: webuicfg.yaml
             path: webuicfg.yaml
-      - name: free5gc
-        configMap:
-          name: free5gc-webui-configmap
-          items:
-          - key: free5gc.yaml
-            path: free5gc.yaml

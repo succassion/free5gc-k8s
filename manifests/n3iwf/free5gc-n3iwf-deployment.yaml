@@ -21,15 +21,22 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: free5gc-amf
-        image: succassion/free5gc-compose_free5gc-amf
+        image: succassion/free5gc-compose_free5gc-n3iwf
         imagePullPolicy: IfNotPresent
         securityContext:
-          privileged: false
+          privileged: true
         command: ["/bin/sh", "-ec"]
         args: ["sleep 5 && ../config/n3iwf-ipsec.sh && ./n3iwf -n3iwfcfg ../config/n3iwfcfg.yaml"]
         env:
         - name: GIN_MODE
           value: release
+        resources:
+          requests:
+            memory: "16Mi"
+            cpu: "100m"
+          limits:
+            memory: "16Mi"
+            cpu: "100m"
         volumeMounts:
         - mountPath: /free5gc/config/n3iwfcfg.yaml
           name: n3iwfcfg
@@ -38,9 +45,6 @@ spec:
           name: n3iwf-ipsec
           readOnly: true
           subPath: n3iwf-ipsec.sh
-        - mountPath: /free5gc/config/free5gc.yaml
-          name: free5gc
-          subPath: free5gc.yaml
       volumes:
         - name: n3iwfcfg
           configMap:
@@ -55,10 +59,3 @@ spec:
             items:
             - key: n3iwf-ipsec.sh
               path: n3iwf-ipsec.sh
-        - name: free5gc
-          configMap:
-            name: free5gc-n3iwf-configmap
-            items:
-            - key: free5gc.yaml
-              path: free5gc.yaml
- 

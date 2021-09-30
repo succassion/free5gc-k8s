@@ -49,9 +49,6 @@ spec:
         - mountPath: /free5gc/config/upfcfg.yaml
           name: upfcfg
           subPath: upfcfg.yaml
-        - mountPath: /free5gc/config/free5gc.yaml
-          name: free5gc
-          subPath: free5gc.yaml
         - mountPath: /free5gc/config/upfipset.sh
           name: upfipset
           readOnly: true
@@ -65,12 +62,6 @@ spec:
           items:
           - key: upfcfg.yaml
             path: upfcfg.yaml
-      - name: free5gc
-        configMap:
-          name: free5gc-upf-configmap
-          items:
-          - key: free5gc.yaml
-            path: free5gc.yaml
       - name: upfipset
         configMap:
           name: free5gc-upf-configmap

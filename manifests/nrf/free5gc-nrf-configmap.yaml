@@ -3,25 +3,6 @@ kind: ConfigMap
 metadata:
   name: free5gc-nrf-configmap
 data:
-  free5gc.yaml: |
-    db_uri: mongodb://free5gc-mongodb:27017/free5GC
-
-    # the kind of log output
-    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
-    # ReportCaller: enable the caller report or not, value: true or false
-    NRF:
-      debugLevel: info
-      ReportCaller: true
-    PathUtil:
-      debugLevel: info
-      ReportCaller: true
-    OpenApi:
-      debugLevel: info
-      ReportCaller: true
-    MongoDBLibrary:
-      debugLevel: info
-      ReportCaller: true
-
   nrfcfg.yaml: |
     info:
       version: 1.0.0
@@ -41,3 +22,20 @@ data:
       serviceNameList: # the SBI services provided by this NRF, refer to TS 29.510
         - nnrf-nfm # Nnrf_NFManagement service
         - nnrf-disc # Nnrf_NFDiscovery service
+
+    # the kind of log output
+    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: enable the caller report or not, value: true or false
+    logger:
+      NRF:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
+      OpenApi:
+        debugLevel: info
+        ReportCaller: true
+      MongoDBLibrary:
+        debugLevel: info
+        ReportCaller: true

@@ -3,8 +3,21 @@ kind: ConfigMap
 metadata:
   name: free5gc-udr-configmap
 data:
-  free5gc.yaml: |
-    db_uri: mongodb://free5gc-mongodb:27017/free5GC
+  udrcfg.yaml: |
+    info:
+      version: 1.0.0
+      description: UDR initial local configuration
+
+    configuration:
+      sbi: # Service-based interface information
+        scheme: http # the protocol for sbi (http or https)
+        registerIPv4: free5gc-udr # IP used to register to NRF
+        bindingIPv4: 0.0.0.0  # IP used to bind the service
+        port: 29504 # port used to bind the service
+      mongodb:
+        name: free5gc # Database name in MongoDB
+        url: mongodb://free5gc-mongodb:27017 # URL of MongoDB
+      nrfUri: http://free5gc-nrf:29510 # a valid URI of NRF
 
     # the kind of log output
     # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
@@ -23,18 +36,3 @@ data:
         debugLevel: info
         ReportCaller: true
 
-  udrcfg.yaml: |
-    info:
-      version: 1.0.0
-      description: UDR initial local configuration
-
-    configuration:
-      sbi: # Service-based interface information
-        scheme: http # the protocol for sbi (http or https)
-        registerIPv4: free5gc-udr # IP used to register to NRF
-        bindingIPv4: 0.0.0.0  # IP used to bind the service
-        port: 29504 # port used to bind the service
-      mongodb:
-        name: free5gc # Database name in MongoDB
-        url: mongodb://free5gc-mongodb:27017 # URL of MongoDB
-      nrfUri: http://free5gc-nrf:29510 # a valid URI of NRF

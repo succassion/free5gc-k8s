@@ -43,9 +43,6 @@ spec:
         - mountPath: /free5gc/config/nssfcfg.yaml
           name: nssfcfg
           subPath: nssfcfg.yaml
-        - mountPath: /free5gc/config/free5gc.yaml
-          name: free5gc
-          subPath: free5gc.yaml
       volumes:
       - name: nssfcfg
         configMap:
@@ -53,10 +50,3 @@ spec:
           items:
           - key: nssfcfg.yaml
             path: nssfcfg.yaml
-      - name: free5gc
-        configMap:
-          name: free5gc-nssf-configmap
-          items:
-          - key: free5gc.yaml
-            path: free5gc.yaml
-

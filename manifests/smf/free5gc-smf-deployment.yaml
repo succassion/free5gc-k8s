@@ -51,9 +51,6 @@ spec:
         - mountPath: /free5gc/config/uerouting.yaml
           name: uerouting
           subPath: uerouting.yaml
-        - mountPath: /free5gc/config/free5gc.yaml
-          name: free5gc
-          subPath: free5gc.yaml
       volumes:
         - name: smfcfg
           configMap:
@@ -67,9 +64,3 @@ spec:
             items:
             - key: uerouting.yaml
               path: uerouting.yaml
-        - name: free5gc
-          configMap:
-            name: free5gc-smf-configmap
-            items:
-            - key: free5gc.yaml
-              path: free5gc.yaml

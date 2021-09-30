@@ -3,25 +3,6 @@ kind: ConfigMap
 metadata:
   name: free5gc-n3iwf-configmap
 data:
-  free5gc.yaml: |
-    db_uri: mongodb://free5gc-mongodb:27017/free5GC
-    # the kind of log output
-    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
-    # ReportCaller: enable the caller report or not, value: true or false
-    logger:
-      N3IWF:
-        debugLevel: info
-        ReportCaller: true
-      NGAP: 
-        debugLevel: info
-        ReportCaller: true
-      Aper:
-        debugLevel: info
-        ReportCaller: true
-      PathUtil:
-        debugLevel: info
-        ReportCaller: true
-
   n3iwfcfg.yaml: |
    info:
      version: 1.0.0
@@ -89,6 +70,23 @@ data:
 
      UEIPAddressRange: # IP address allocated to UE in IPSec tunnel
        10.0.0.0/24
+
+    # the kind of log output
+    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: enable the caller report or not, value: true or false
+    logger:
+      N3IWF:
+        debugLevel: info
+        ReportCaller: true
+      NGAP:
+        debugLevel: info
+        ReportCaller: true
+      Aper:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
   
   n3iwf-ipsec.sh: |
     #!/bin/sh

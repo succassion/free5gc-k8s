@@ -48,9 +48,6 @@ spec:
         - mountPath: /free5gc/config/amfcfg.yaml
           name: amfcfg
           subPath: amfcfg.yaml
-        - mountPath: /free5gc/config/free5gc.yaml
-          name: free5gc
-          subPath: free5gc.yaml
       volumes:
       - name: amfcfg
         configMap:
@@ -58,9 +55,3 @@ spec:
           items:
           - key: amfcfg.yaml
             path: amfcfg.yaml
-      - name: free5gc
-        configMap:
-          name: free5gc-amf-configmap
-          items:
-          - key: free5gc.yaml
-            path: free5gc.yaml

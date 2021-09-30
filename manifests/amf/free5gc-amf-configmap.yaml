@@ -3,35 +3,6 @@ kind: ConfigMap
 metadata:
   name: free5gc-amf-configmap
 data:
-  free5gc.yaml: |
-    db_uri: mongodb://free5gc-mongodb:27017/free5GC
-
-    # the kind of log output
-    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
-    # ReportCaller: enable the caller report or not, value: true or false
-    logger:
-      AMF:
-        debugLevel: info
-        ReportCaller: true
-      NAS:
-        debugLevel: info
-        ReportCaller: true
-      FSM:
-        debugLevel: info
-        ReportCaller: true
-      NGAP:
-        debugLevel: info
-        ReportCaller: true
-      Aper:
-        debugLevel: info
-        ReportCaller: true
-      PathUtil:
-        debugLevel: info
-        ReportCaller: true
-      OpenApi:
-        debugLevel: info
-        ReportCaller: true
-
   amfcfg.yaml: |
     info:
       version: 1.0.0
@@ -113,3 +84,29 @@ data:
         enable: true     # true or false
         expireTime: 6s   # default is 6 seconds
         maxRetryTimes: 4 # the max number of retransmission
+
+    # the kind of log output
+    # debugLevel: how detailed to output, value: trace, debug, info, warn, error, fatal, panic
+    # ReportCaller: enable the caller report or not, value: true or false
+    logger:
+      AMF:
+        debugLevel: info
+        ReportCaller: true
+      NAS:
+        debugLevel: info
+        ReportCaller: true
+      FSM:
+        debugLevel: info
+        ReportCaller: true
+      NGAP:
+        debugLevel: info
+        ReportCaller: true
+      Aper:
+        debugLevel: info
+        ReportCaller: true
+      PathUtil:
+        debugLevel: info
+        ReportCaller: true
+      OpenApi:
+        debugLevel: info
+        ReportCaller: true

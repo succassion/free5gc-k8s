@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-ue
+  labels:
+    app: free5gc-ue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc-ue
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: free5gc-ue
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-ue-n1n2
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-ue
+        image: succassion/ueransim:3.2.3
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 10 && /usr/local/build/nr-ue -c /config/free5gc-ue.yaml"]
+        ports:
+        - containerPort: 38412
+          name: if-n1n2
+          protocol: SCTP
+        resources:
+          requests:
+            memory: "16Mi"
+            cpu: "100m"
+          limits:
+            memory: "16Mi"
+            cpu: "100m"
+        volumeMounts:
+        - mountPath: /config/free5gc-ue.yaml
+          name: free5gc-ue
+          subPath: free5gc-ue.yaml
+        - mountPath: /dev/net/tun
+          name: tun-dev
+      volumes:
+      - name: free5gc-ue
+        configMap:
+          name: free5gc-ue-configmap
+          items:
+          - key: free5gc-ue.yaml
+            path: free5gc-ue.yaml
+      - name: tun-dev
+        hostPath:
+          path: /dev/net/tun

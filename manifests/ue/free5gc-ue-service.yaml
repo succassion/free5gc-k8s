@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: free5gc-ue
+  labels:
+    app: free5gc-ue
+spec:
+  type: ClusterIP
+  selector:
+    ngc-mode: free5gc-ue
+  ports:
+  - name: free5gc-ue-n1n2
+    port: 38412
+    protocol: SCTP
+    targetPort: 38412

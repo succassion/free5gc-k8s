@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: free5gc-gnb
+  labels:
+    app: free5gc-gnb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: free5gc-gnb
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: free5gc-gnb
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-gnb-n3
+    spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: free5gc-gnb
+        image: succassion/ueransim:3.2.3
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
+        command: ["/bin/sh", "-ec"]
+        args: ["sleep 5 && /entrypoint.sh"]
+        ports:
+        - containerPort: 2152
+          name: if-n3
+          protocol: UDP
+        resources:
+          requests:
+            memory: "16Mi"
+            cpu: "100m"
+          limits:
+            memory: "16Mi"
+            cpu: "100m"
+        volumeMounts:
+        - mountPath: /config/free5gc-gnb.yaml
+          name: free5gc-gnb
+          subPath: free5gc-gnb.yaml
+        - mountPath: entrypoint.sh
+          name: entrypoint
+          readOnly: true
+          subPath: entrypoint.sh
+        - mountPath: /dev/net/tun
+          name: tun-dev
+      volumes:
+      - name: free5gc-gnb
+        configMap:
+          name: free5gc-gnb-configmap
+          items:
+          - key: free5gc-gnb.yaml
+            path: free5gc-gnb.yaml
+      - name: entrypoint
+        configMap:
+          name: free5gc-gnb-configmap
+          defaultMode: 0700
+          items:
+          - key: entrypoint.sh
+            path: entrypoint.sh
+      - name: tun-dev
+        hostPath:
+          path: /dev/net/tun

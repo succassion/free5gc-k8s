@@ -21,7 +21,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: free5gc-amf
-        image: succassion/free5gc-compose_free5gc-ausf
+        image: succassion/free5gc-ausf
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-ec"]
         args: ["sleep 5 && ./ausf -ausfcfg ../config/ausfcfg.yaml"]

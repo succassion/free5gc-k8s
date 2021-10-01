@@ -1,7 +1,5 @@
 resources:
   - free5gc-ue-configmap.yaml
-  - free5gc-ue-service.yaml
-  - free5gc-ue-cni.yaml
   - free5gc-ue-deployment.yaml
 
 namespace: free5gc-k8s

@@ -11,13 +11,13 @@ data:
     idLength: 32        # NR gNB ID length in bits [22...32]
     tac: 1              # Tracking Area Code
 
-    linkIp: ${GNB_ADDR}   # gNB's local IP address for Radio Link Simulation (Usually same with local IP)
-    ngapIp: ${GNB_ADDR}   # gNB's local IP address for N2 Interface (Usually same with local IP)
+    linkIp: 0.0.0.0   # gNB's local IP address for Radio Link Simulation (Usually same with local IP)
+    ngapIp: 0.0.0.0   # gNB's local IP address for N2 Interface (Usually same with local IP)
     gtpIp: ${GNB_ADDR}   # gNB's local IP address for N3 Interface (Usually same with local IP)
 
     # List of AMF address information
     amfConfigs:
-    - address: 10.44.0.4
+    - address: ${AMF_ADDR}
       port: 38412
 
     # List of supported S-NSSAIs by this gNB
@@ -31,7 +31,8 @@ data:
   entrypoint.sh: |
     echo "Launching gnb: nr-gnb -c free5gc-gnb.yaml"
     export GNB_ADDR="$(ip route | awk 'NR==2 {print $9; exit}')"
+    export AMF_ADDR="$(host free5gc-amf.free5gc-k8s.svc.cluster.local | awk '{print $4; exit}')"
 
-    echo "gnb) Find GNB_ADDR : $GNB_ADDR"
+    echo "gnb) Find GNB_ADDR : $GNB_ADDR, AMF_ADDR : $AMF_ADDR"
     envsubst < /config/free5gc-gnb.yaml > free5gc-gnb.yaml
     /usr/local/build/nr-gnb -c free5gc-gnb.yaml

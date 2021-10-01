@@ -76,3 +76,11 @@ data:
     integrityMaxRate:
       uplink: 'full'
       downlink: 'full'
+
+  entrypoint.sh: |
+    echo "Launching ue: nr-ue -c free5gc-ue.yaml"
+    export GNB_ADDR="$(host free5gc-gnb.free5gc-k8s.svc.cluster.local | awk '{print $4; exit}')"
+
+    echo "UE) Find GNB_ADDR : $GNB_ADDR"
+    envsubst < /config/free5gc-ue.yaml > free5gc-ue.yaml
+    /usr/local/build/nr-ue -c free5gc-ue.yaml

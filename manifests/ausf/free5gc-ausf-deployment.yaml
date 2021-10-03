@@ -20,7 +20,7 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       containers:
-      - name: free5gc-amf
+      - name: free5gc-ausf
         image: succassion/free5gc-ausf
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-ec"]

@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-gnb
-  labels:
-    app: free5gc-gnb
+  name: gnb
 spec:
   replicas: 1
   selector:
@@ -16,7 +14,7 @@ spec:
       labels:
         app: free5gc-gnb
       annotations:
-        k8s.v1.cni.cncf.io/networks: free5gc-gnb-n3
+        k8s.v1.cni.cncf.io/networks: free5gc-gnb-n1, free5gc-gnb-n3
     spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -30,6 +28,9 @@ spec:
         command: ["/bin/sh", "-ec"]
         args: ["sleep 5 && /entrypoint.sh"]
         ports:
+        - containerPort: 2151
+          name: if-n1
+          protocol: UDP
         - containerPort: 2152
           name: if-n3
           protocol: UDP

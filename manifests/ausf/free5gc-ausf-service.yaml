@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: free5gc-ausf
-  labels:
-    app: free5gc-ausf
+  name: ausf
 spec:
   type: ClusterIP
   ports:

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: free5gc-nssf-configmap
+  name: nssf-configmap
 data:
   nssfcfg.yaml: |
     info:

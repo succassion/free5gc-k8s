@@ -1,10 +1,7 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-webui
-  labels:
-    app: free5gc-webui
+  name: webui
 spec:
   replicas: 1
   selector:

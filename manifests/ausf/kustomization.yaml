@@ -1,7 +1,8 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-ausf
 resources:
   - free5gc-ausf-configmap.yaml
   - free5gc-ausf-service.yaml
   - free5gc-ausf-deployment.yaml
- 
-namespace: free5gc-k8s
-

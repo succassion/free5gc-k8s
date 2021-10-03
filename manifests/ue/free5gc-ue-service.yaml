@@ -1,17 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: gnb
+  name: ue
 spec:
   type: ClusterIP
   selector:
-    app: free5gc-gnb
+    app: free5gc-ue
   ports:
-  - name: free5gc-gnb-n1
+  - name: free5gc-ue-n1
     port: 2151
     protocol: UDP
     targetPort: 2151
-  - name: free5gc-gnb-n3
-    port: 2152
-    protocol: UDP
-    targetPort: 2152

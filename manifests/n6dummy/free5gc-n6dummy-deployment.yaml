@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-n6dummy
-  labels:
-    app: free5gc-n6dummy
+  name: n6dummy
 spec:
   replicas: 1
   selector:

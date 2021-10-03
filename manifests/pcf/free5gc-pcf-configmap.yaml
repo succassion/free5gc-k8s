@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: free5gc-pcf-configmap
+  name: pcf-configmap
 data:
   pcfcfg.yaml: |
     info:

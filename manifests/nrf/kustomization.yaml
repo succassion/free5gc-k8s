@@ -1,6 +1,8 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-nrf
 resources:
   - free5gc-nrf-configmap.yaml
   - free5gc-nrf-service.yaml
   - free5gc-nrf-deployment.yaml
-
-namespace: free5gc-k8s

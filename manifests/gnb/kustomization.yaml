@@ -1,7 +1,9 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-gnb
 resources:
   - free5gc-gnb-configmap.yaml
   - free5gc-gnb-service.yaml
   - free5gc-gnb-cni.yaml
   - free5gc-gnb-deployment.yaml
-
-namespace: free5gc-k8s

@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: free5gc-udr
-  labels:
-    app: free5gc-udr
+  name: udr
 spec:
   type: ClusterIP
   ports:

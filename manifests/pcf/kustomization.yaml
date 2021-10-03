@@ -1,6 +1,8 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-pcf
 resources:
   - free5gc-pcf-configmap.yaml
   - free5gc-pcf-service.yaml
   - free5gc-pcf-deployment.yaml
-
-namespace: free5gc-k8s

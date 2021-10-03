@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-nrf
-  labels:
-    app: free5gc-nrf
+  name: nrf
 spec:
   replicas: 1
   selector:

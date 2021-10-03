@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-ue
-  labels:
-    app: free5gc-ue
+  name: ue
 spec:
   replicas: 1
   selector:
@@ -15,6 +13,8 @@ spec:
     metadata:
       labels:
         app: free5gc-ue
+      annotations:
+        k8s.v1.cni.cncf.io/networks: free5gc-ue-n1
     spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -26,7 +26,11 @@ spec:
         securityContext:
           privileged: true
         command: ["/bin/sh", "-ec"]
-        args: ["sleep 5 && /entrypoint.sh"]
+        args: ["sleep 5 && /usr/local/build/nr-ue -c /config/free5gc-ue.yaml"]
+        ports:
+        - containerPort: 2151
+          name: if-n1
+          protocol: UDP
         resources:
           requests:
             memory: "16Mi"
@@ -38,10 +42,6 @@ spec:
         - mountPath: /config/free5gc-ue.yaml
           name: free5gc-ue
           subPath: free5gc-ue.yaml
-        - mountPath: entrypoint.sh
-          name: entrypoint
-          readOnly: true
-          subPath: entrypoint.sh
         - mountPath: /dev/net/tun
           name: tun-dev
       volumes:
@@ -51,13 +51,6 @@ spec:
           items:
           - key: free5gc-ue.yaml
             path: free5gc-ue.yaml
-      - name: entrypoint
-        configMap:
-          name: free5gc-ue-configmap
-          defaultMode: 0700
-          items:
-          - key: entrypoint.sh
-            path: entrypoint.sh
       - name: tun-dev
         hostPath:
           path: /dev/net/tun

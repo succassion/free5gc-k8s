@@ -1,7 +1,8 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-mongodb
 resources:
   - free5gc-mongodb-service.yaml
-    #- free5gc-mongodb-persistentvolumeclaim.yaml
   - free5gc-mongodb-configmap.yaml
-  - free5gc-mongodb.yaml
-
-namespace: free5gc-k8s
+  - free5gc-mongodb-statefulset.yaml

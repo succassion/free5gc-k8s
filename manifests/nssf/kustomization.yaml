@@ -1,6 +1,8 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-nssf
 resources:
   - free5gc-nssf-configmap.yaml
   - free5gc-nssf-service.yaml
   - free5gc-nssf-deployment.yaml
- 
-namespace: free5gc-k8s

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata: 
-  name: free5gc-webui-configmap
+  name: webui-configmap
 data:
   webuicfg.yaml: |
     info:

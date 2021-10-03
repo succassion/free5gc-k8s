@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-nssf
-  labels:
-    app: free5gc-nssf
+  name: nssf
 spec:
   replicas: 1
   selector:

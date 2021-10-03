@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: free5gc-amf
-  labels:
-    app: free5gc-amf
+  name: amf
 spec:
   type: ClusterIP
   ports:
@@ -11,7 +9,7 @@ spec:
     port: 29518
     protocol: TCP
     targetPort: 29518
-  - name: if-n1n2
+  - name: if-n2
     port: 38412
     protocol: SCTP
     targetPort: 38412

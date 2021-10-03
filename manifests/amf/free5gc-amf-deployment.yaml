@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-amf
-  labels:
-    app: free5gc-amf
+  name: amf
 spec:
   replicas: 1
   selector:
@@ -16,7 +14,7 @@ spec:
       labels:
         app: free5gc-amf
       annotations:
-        k8s.v1.cni.cncf.io/networks: free5gc-amf-n1n2
+        k8s.v1.cni.cncf.io/networks: free5gc-amf-n2
     spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -31,7 +29,7 @@ spec:
         - name: free5gc-amf
           containerPort: 29518
           protocol: TCP
-        - name: if-n1n2
+        - name: if-n2
           containerPort: 38412
           protocol: SCTP
         env:

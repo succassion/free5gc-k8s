@@ -1,5 +1,7 @@
+namespace: free5gc-k8s
+namePrefix: free5gc-
+commonLabels:
+  app: free5gc-n6dummy
 resources:
   - free5gc-n6dummy-cni.yaml
   - free5gc-n6dummy-deployment.yaml
- 
-namespace: free5gc-k8s

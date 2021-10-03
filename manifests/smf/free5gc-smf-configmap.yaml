@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: free5gc-smf-configmap
+  name: smf-configmap
 data:
   smfcfg.yaml: |
     info:

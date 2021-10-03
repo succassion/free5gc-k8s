@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: free5gc-udr
-  labels:
-    app: free5gc-udr
+  name: udr
 spec:
   replicas: 1
   selector:

@@ -1,8 +1,7 @@
----
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition 
 metadata:
-  name: free5gc-upf-n3
+  name: upf-n3
 spec:
   config: |
     { 
@@ -24,7 +23,7 @@ spec:
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: free5gc-upf-n4
+  name: upf-n4
 spec:
   config: |
     {
@@ -46,7 +45,7 @@ spec:
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: free5gc-upf-n6
+  name: upf-n6
 spec:
   config: |
     {

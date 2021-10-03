@@ -1,9 +1,10 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: n6dummy-n6
+  name: ue-n1
 spec:
-  config: '{
+  config: |
+    {
       "cniVersion": "0.3.1",
       "type": "macvlan",
       "master": "enp0s3",
@@ -11,10 +12,11 @@ spec:
       "ipam": {
         "type": "static",
         "addresses": [
-                {
-                        "address": "172.16.31.100/24",
-                        "gateway": "172.16.31.1"
-                }
+          {
+            "address": "192.168.11.10/24",
+            "gateway": "192.168.11.1"
+          }
         ]
       }
-    }'
+    }
+

@@ -18,8 +18,8 @@ spec:
       - name: free5gc-gnb
         image: succassion/ueransim:3.2.3
         imagePullPolicy: IfNotPresent
-        securityContext:
-          privileged: true
+        #securityContext:
+        #  privileged: true
         command: ["/bin/sh", "-ec"]
         args: ["sleep 5 && /entrypoint.sh"]
         ports:

@@ -18,8 +18,8 @@ spec:
       - name: free5gc-n6dummy
         image: docker.io/centos/tools:latest
         imagePullPolicy: IfNotPresent
-        securityContext:
-            privileged: true
+        #securityContext:
+        #  privileged: true
         command:
         - /sbin/init
         resources:

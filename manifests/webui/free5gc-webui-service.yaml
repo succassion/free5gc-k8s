@@ -8,5 +8,3 @@ spec:
   - port: 5000
     protocol: TCP
     targetPort: 5000
-  selector:
-    app: free5gc-webui

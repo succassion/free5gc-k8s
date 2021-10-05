@@ -13,5 +13,3 @@ spec:
     port: 38412
     protocol: SCTP
     targetPort: 38412
-  selector:
-    app: free5gc-amf

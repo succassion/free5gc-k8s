@@ -4,15 +4,10 @@ metadata:
   name: gnb
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: free5gc-gnb
   strategy:
     type: RollingUpdate
   template:
     metadata:
-      labels:
-        app: free5gc-gnb
       annotations:
         k8s.v1.cni.cncf.io/networks: free5gc-gnb-n1, free5gc-gnb-n3
     spec:

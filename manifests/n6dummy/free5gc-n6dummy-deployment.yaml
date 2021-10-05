@@ -4,15 +4,10 @@ metadata:
   name: n6dummy
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: free5gc-n6dummy
   strategy:
     type: RollingUpdate
   template:
     metadata:
-      labels:
-        app: free5gc-n6dummy
       annotations:
         k8s.v1.cni.cncf.io/networks: free5gc-n6dummy-n6
     spec:

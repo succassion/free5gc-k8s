@@ -13,5 +13,3 @@ spec:
     port: 8805
     protocol: UDP
     targetPort: 8805
-  selector:
-    app: free5gc-smf

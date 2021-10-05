@@ -9,5 +9,3 @@ spec:
       port: 29504
       protocol: TCP
       targetPort: 29504
-  selector:
-    app: free5gc-udr

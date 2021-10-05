@@ -4,15 +4,10 @@ metadata:
   name: amf
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: free5gc-amf
   strategy:
     type: RollingUpdate
   template:
     metadata:
-      labels:
-        app: free5gc-amf
       annotations:
         k8s.v1.cni.cncf.io/networks: free5gc-amf-n2
     spec:

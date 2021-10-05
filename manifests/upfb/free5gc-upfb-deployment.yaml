@@ -4,15 +4,10 @@ metadata:
   name: upfb
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: free5gc-upfb
   strategy:
     type: RollingUpdate
   template:
     metadata:
-      labels:
-        app: free5gc-upfb
       annotations:
         k8s.v1.cni.cncf.io/networks: free5gc-upf-n3, free5gc-upf-n4, free5gc-upf-n6
     spec:

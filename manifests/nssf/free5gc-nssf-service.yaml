@@ -9,5 +9,3 @@ spec:
       port: 29531
       protocol: TCP
       targetPort: 29531
-  selector:
-    app: free5gc-nssf

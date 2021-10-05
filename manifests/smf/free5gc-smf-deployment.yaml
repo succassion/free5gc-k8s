@@ -4,15 +4,10 @@ metadata:
   name: smf
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: free5gc-smf
   strategy:
     type: RollingUpdate
   template:
     metadata:
-      labels:
-        app: free5gc-smf
       annotations:
         k8s.v1.cni.cncf.io/networks: free5gc-smf-n4
     spec:

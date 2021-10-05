@@ -4,15 +4,9 @@ metadata:
   name: ausf
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: free5gc-ausf
   strategy:
     type: RollingUpdate
   template:
-    metadata:
-      labels:
-        app: free5gc-ausf
     spec:
       dnsPolicy: ClusterFirst
       restartPolicy: Always

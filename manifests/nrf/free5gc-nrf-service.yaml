@@ -4,8 +4,6 @@ metadata:
   name: nrf
 spec:
   type: ClusterIP
-  selector:
-    app: free5gc-nrf
   ports:
     - name: free5gc-nrf
       port: 29510

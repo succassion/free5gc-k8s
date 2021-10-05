@@ -4,8 +4,6 @@ metadata:
   name: gnb
 spec:
   type: ClusterIP
-  selector:
-    app: free5gc-gnb
   ports:
   - name: free5gc-gnb-n1
     port: 2151

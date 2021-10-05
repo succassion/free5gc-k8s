@@ -9,5 +9,3 @@ spec:
     port: 27017
     protocol: TCP
     targetPort: 27017
-  selector:
-    app: free5gc-mongodb

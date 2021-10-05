@@ -9,5 +9,3 @@ spec:
       port: 29507
       protocol: TCP
       targetPort: 29507
-  selector:
-    app: free5gc-pcf

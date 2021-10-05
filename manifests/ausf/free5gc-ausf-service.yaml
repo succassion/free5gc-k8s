@@ -9,5 +9,3 @@ spec:
     port: 29509
     protocol: TCP
     targetPort: 29509
-  selector:
-    app: free5gc-ausf

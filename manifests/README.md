@@ -95,20 +95,20 @@ $ kubectl apply -k ue/
 ```
 $ kubectl get pod -n free5gc-k8s -o wide
 NAME                               READY   STATUS    RESTARTS   AGE     IP           NODE               NOMINATED NODE   READINESS GATES
-free5gc-amf-6bb5f886fb-8cmxg       1/1     Running   0          27m     10.36.0.3    kube-worker2.lge   <none>           <none>
-free5gc-ausf-56d644c48d-s4s4v      1/1     Running   0          54m     10.36.0.9    kube-worker2.lge   <none>           <none>
-free5gc-gnb-94b46766f-zbwjb        1/1     Running   0          5m52s   10.36.0.12   kube-worker2.lge   <none>           <none>
-free5gc-mongodb-0                  1/1     Running   0          69m     10.36.0.0    kube-worker2.lge   <none>           <none>
-free5gc-n6dummy-5c84fcd8c5-g9wng   1/1     Running   0          53m     10.36.0.10   kube-worker2.lge   <none>           <none>
-free5gc-nrf-797747d84d-d5rk8       1/1     Running   0          65m     10.36.0.2    kube-worker2.lge   <none>           <none>
-free5gc-nssf-b574db45c-dccdg       1/1     Running   0          55m     10.36.0.8    kube-worker2.lge   <none>           <none>
-free5gc-pcf-64776bc4c6-qsfm6       1/1     Running   0          58m     10.36.0.6    kube-worker2.lge   <none>           <none>
-free5gc-smf-5c4dc9f9d6-2cklk       1/1     Running   0          64m     10.36.0.4    kube-worker2.lge   <none>           <none>
-free5gc-udm-68f9f87cb-nxhzr        1/1     Running   0          57m     10.36.0.7    kube-worker2.lge   <none>           <none>
-free5gc-udr-598ff4bc45-5qzpn       1/1     Running   0          59m     10.36.0.5    kube-worker2.lge   <none>           <none>
-free5gc-ue-85998445c7-zhqvm        1/1     Running   0          47s     10.36.0.14   kube-worker2.lge   <none>           <none>
-free5gc-upfb-656dd8dcdb-72rjk      1/1     Running   0          68m     10.36.0.1    kube-worker2.lge   <none>           <none>
-free5gc-webui-75bc8d8694-l6q7b     1/1     Running   0          53m     10.36.0.11   kube-worker2.lge   <none>           <none>
+free5gc-amf-6bb5f886fb-8cmxg       1/1     Running   0          27m     10.36.0.3    kube-worker2       <none>           <none>
+free5gc-ausf-56d644c48d-s4s4v      1/1     Running   0          54m     10.36.0.9    kube-worker2       <none>           <none>
+free5gc-gnb-94b46766f-zbwjb        1/1     Running   0          5m52s   10.36.0.12   kube-worker2       <none>           <none>
+free5gc-mongodb-0                  1/1     Running   0          69m     10.36.0.0    kube-worker2       <none>           <none>
+free5gc-n6dummy-5c84fcd8c5-g9wng   1/1     Running   0          53m     10.36.0.10   kube-worker2       <none>           <none>
+free5gc-nrf-797747d84d-d5rk8       1/1     Running   0          65m     10.36.0.2    kube-worker2       <none>           <none>
+free5gc-nssf-b574db45c-dccdg       1/1     Running   0          55m     10.36.0.8    kube-worker2       <none>           <none>
+free5gc-pcf-64776bc4c6-qsfm6       1/1     Running   0          58m     10.36.0.6    kube-worker2       <none>           <none>
+free5gc-smf-5c4dc9f9d6-2cklk       1/1     Running   0          64m     10.36.0.4    kube-worker2       <none>           <none>
+free5gc-udm-68f9f87cb-nxhzr        1/1     Running   0          57m     10.36.0.7    kube-worker2       <none>           <none>
+free5gc-udr-598ff4bc45-5qzpn       1/1     Running   0          59m     10.36.0.5    kube-worker2       <none>           <none>
+free5gc-ue-85998445c7-zhqvm        1/1     Running   0          47s     10.36.0.14   kube-worker2       <none>           <none>
+free5gc-upfb-656dd8dcdb-72rjk      1/1     Running   0          68m     10.36.0.1    kube-worker2       <none>           <none>
+free5gc-webui-75bc8d8694-l6q7b     1/1     Running   0          53m     10.36.0.11   kube-worker2       <none>           <none>
 ```
 
 ### Services

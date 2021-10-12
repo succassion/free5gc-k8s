@@ -33,11 +33,11 @@ spec:
           protocol: UDP
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "1"
+            memory: "32Mi"
+            cpu: "150m"
           limits:
-            memory: "128Mi"
-            cpu: "1"
+            memory: "32Mi"
+            cpu: "150m"
         volumeMounts:
         - mountPath: /free5gc/config/upfcfg.yaml
           name: upfcfg

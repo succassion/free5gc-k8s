@@ -5,5 +5,6 @@ Free5GC dockerfiles
 ### Kubernetes Yaml Files
 Free5GC Kubernets Yaml
 
-### Pod Monitoring Shell Script
-monitoringPod.sh
+### Monitoring Tools
+Promethus & Grafana
+Pod Monitoring Shell Script

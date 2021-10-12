@@ -1,6 +1,3 @@
-# Prometheus & Grafana
-monitoringTool Directory
-
 # Free5gc Kubernetes
 ### Namespace
 ```

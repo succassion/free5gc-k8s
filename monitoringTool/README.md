@@ -57,5 +57,3 @@ $ kubectl get pod -n monitoring
 NAME                                     READY   STATUS    RESTARTS   AGE
 grafana-799c99855d-kxhkm                 1/1     Running   0          16s
 ```
-
-

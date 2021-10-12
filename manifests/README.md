@@ -148,3 +148,6 @@ free5gc-ue-85998445c7-zhqvm        1/1     Running   0          8m55s   app=free
 free5gc-upfb-656dd8dcdb-72rjk      1/1     Running   0          76m     app=free5gc-upfb,pod-template-hash=656dd8dcdb
 free5gc-webui-75bc8d8694-l6q7b     1/1     Running   0          61m     app=free5gc-webui,pod-template-hash=75bc8d8694
 ```
+
+# Prometheus & Grafana
+monitoringTool Directory

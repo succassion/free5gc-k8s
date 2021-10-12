@@ -1,32 +1,9 @@
-# test
+# Free5GC Kubernetes System
+### Docker Images
+Free5GC dockerfiles
 
-# Check List
-1. namespace
-```
-$ kubectl apply -f 00_namespace.yaml
-$ kubectl get ns
-```
-2. mongodb
-```
-$ kubectl apply -k mongodb
-$ kubectl get pod -n free5gc-k8s
-```
-3. webui
-```
-$ kubectl apply -k webui
-$ kubectl get pod -n free5gc-k8s
-$ kubectl describe pod <mongodb_pod_name> -n free5gc-k8s
-...
-IP:           10.36.0.2
-...
-    Port:          5000/TCP
-...
-```
-and webconle
-```
-IP : 10.36.0.2
-Port : 5000
+### Kubernetes Yaml Files
+Free5GC Kubernets Yaml
 
-ID : admin
-PW : free5gc
-```
+### Pod Monitoring Shell Script
+monitoringPod.sh

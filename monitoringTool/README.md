@@ -52,6 +52,8 @@ $ kubectl apply -f grafana.yaml
 ```
 port: 30004
 addr: 'kubectl get svc -n monitoring' & check Cluster-IP
+prometheus-port:8080
+-> DataSource URL : Cluster-IP:prometheus-port
 
 ### Check Grafana
 ```

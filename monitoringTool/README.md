@@ -15,7 +15,8 @@ $ kubectl apply -f prometheus-deployment.yaml
 $ kubectl apply -f prometheus-node-exporter.yaml
 $ kubectl apply -f prometheus-svc.yaml
 ```
-ip:30003
+port:30003
+ip: localhost
 
 ### Check Prometheus Pod
 Node Number : 2
@@ -49,7 +50,8 @@ kube-state-metrics-59bd4d9d-nbfrq          1/1     Running   0          50s
 ```
 $ kubectl apply -f grafana.yaml
 ```
-ip:30004
+port: 30004
+addr: 'kubectl get svc -n monitoring' & check Cluster-IP
 
 ### Check Grafana
 ```
